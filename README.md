@@ -23,3 +23,7 @@ Live at [sebqw.github.io/ITJourney](https://sebqw.github.io/ITJourney/)
 It's plain HTML, CSS and JavaScript with no build step. Open `index.html` in a browser.
 
 The site is published to GitHub Pages by the workflow in `.github/workflows/deploy-pages.yml`.
+
+## Credits
+
+- Favicon by [Magnific](https://www.flaticon.com/authors/magnific) on [Flaticon](https://www.flaticon.com/)

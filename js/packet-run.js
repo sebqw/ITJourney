@@ -47,13 +47,13 @@
     const NONE = { x: 0, y: 0 };
 
     const COLOURS = {
-        bg: '#070d26',
-        wall: '#0d2142',
-        edge: '#3cc1c4',
-        bit: '#66bfbf',
+        bg: '#121812',
+        wall: '#1f2b1d',
+        edge: '#7fa363',
+        bit: '#a8c48a',
         firewall: '#facc15',
-        packet: '#e8f6f6',
-        packetAccent: '#11999e',
+        packet: '#f3f1e8',
+        packetAccent: '#b5532b',
         quarantined: '#475569',
         viruses: ['#ef4444', '#f97316', '#a855f7']
     };
