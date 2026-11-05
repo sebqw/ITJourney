@@ -450,6 +450,10 @@ a {
   mask-image: linear-gradient(to left, #000 15%, transparent 70%);
 }
 
+/* Words the window can shove about (js/terminal.js) */
+.bump { display: inline-block; will-change: transform; }
+.hero .hi .bump { display: inline-block; }
+
 /* Movable window (js/terminal.js) */
 .terminal { z-index: 5; }
 .terminal-bar { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }

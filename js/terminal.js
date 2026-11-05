@@ -228,6 +228,7 @@
     function render() {
         term.style.translate = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px';
         term.style.rotate = calm ? '' : tilt.toFixed(2) + 'deg';
+        term.dispatchEvent(new Event('terminal:move'));
     }
 
     // The window's home position on screen, without our offset
@@ -315,4 +316,113 @@
 
     // If the page scrolls or resizes, keep the window reachable
     window.addEventListener('resize', function () { if (x || y) { contain(); render(); } });
+})();
+
+/* ---------- Text gets shoved out of the way ----------
+   Words in the intro (and the buttons and highlight cards) act like
+   little bodies on springs. When the window comes close they get pushed
+   away from it, wobble, and spring back once it has gone. */
+(function () {
+    'use strict';
+
+    var term = document.querySelector('.terminal');
+    if (!term) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var REACH = 46;       // px around the window where text feels it
+    var PUSH = 1.6;       // strength of the shove
+    var SPRING = 0.06;    // pull back to the resting place
+    var DAMP = 0.82;      // velocity kept each frame
+
+    // Split the intro text into words, keeping the spaces between them
+    function splitWords(el) {
+        var walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [];
+        while (walk.nextNode()) nodes.push(walk.currentNode);
+        nodes.forEach(function (n) {
+            if (!n.nodeValue.trim()) return;
+            var frag = document.createDocumentFragment();
+            n.nodeValue.split(/(\s+)/).forEach(function (part) {
+                if (!part) return;
+                if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+                var w = document.createElement('span');
+                w.className = 'bump';
+                w.textContent = part;
+                frag.appendChild(w);
+            });
+            n.parentNode.replaceChild(frag, n);
+        });
+    }
+
+    document.querySelectorAll('.hero .status, .hero h1, .hero .role, .hero .pitch').forEach(splitWords);
+    var els = Array.prototype.slice.call(document.querySelectorAll(
+        '.hero .bump, .hero-actions .btn, .highlights li'));
+
+    var bodies = els.map(function (el) {
+        el.classList.add('bump');
+        return { el: el, ox: 0, oy: 0, vx: 0, vy: 0, cx: 0, cy: 0, w: 0, h: 0 };
+    });
+
+    // Resting centres in page coordinates (measured with offsets removed)
+    function measure() {
+        var sx = window.scrollX, sy = window.scrollY;
+        bodies.forEach(function (b) {
+            var r = b.el.getBoundingClientRect();
+            b.cx = r.left + r.width / 2 - b.ox + sx;
+            b.cy = r.top + r.height / 2 - b.oy + sy;
+            b.w = r.width; b.h = r.height;
+        });
+    }
+    var measured = false;
+    window.addEventListener('resize', function () { measured = false; });
+
+    var running = false, idle = 0;
+
+    function step() {
+        var sx = window.scrollX, sy = window.scrollY;
+        var r = term.getBoundingClientRect();
+        var L = r.left + sx, T = r.top + sy, R = r.right + sx, B = r.bottom + sy;
+        var mx = (L + R) / 2, my = (T + B) / 2;
+        var active = false;
+
+        bodies.forEach(function (b) {
+            var px = b.cx + b.ox, py = b.cy + b.oy;
+            // Nearest point on the window to this word, padded by half the word's size
+            var hw = b.w / 2, hh = b.h / 2;
+            var nx = Math.max(L - hw, Math.min(px, R + hw));
+            var ny = Math.max(T - hh, Math.min(py, B + hh));
+            var dx = px - nx, dy = py - ny, d = Math.sqrt(dx * dx + dy * dy);
+            if (d < REACH) {
+                if (d < 0.5) { dx = px - mx; dy = py - my; d = Math.sqrt(dx * dx + dy * dy) || 1; }
+                var f = (1 - Math.min(d, REACH) / REACH) * PUSH * (d < 0.5 ? 2.5 : 1);
+                // Inside the window: push out hard
+                if (px > L - hw && px < R + hw && py > T - hh && py < B + hh) f = PUSH * 2.5;
+                b.vx += dx / d * f * 3;
+                b.vy += dy / d * f * 3;
+            }
+            b.vx = (b.vx - b.ox * SPRING) * DAMP;
+            b.vy = (b.vy - b.oy * SPRING) * DAMP;
+            b.ox += b.vx;
+            b.oy += b.vy;
+
+            if (Math.abs(b.ox) + Math.abs(b.oy) + Math.abs(b.vx) + Math.abs(b.vy) > 0.15) {
+                active = true;
+                b.el.style.transform = 'translate(' + b.ox.toFixed(1) + 'px,' + b.oy.toFixed(1) + 'px) rotate(' + (b.vx * 0.8).toFixed(1) + 'deg)';
+            } else if (b.ox || b.oy) {
+                b.ox = b.oy = b.vx = b.vy = 0;
+                b.el.style.transform = '';
+            }
+        });
+
+        idle = active ? 0 : idle + 1;
+        if (idle > 20) { running = false; return; }
+        requestAnimationFrame(step);
+    }
+
+    term.addEventListener('terminal:move', function () {
+        idle = 0;
+        if (running) return;
+        if (!measured) { measure(); measured = true; }
+        running = true;
+        requestAnimationFrame(step);
+    });
 })();
