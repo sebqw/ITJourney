@@ -187,11 +187,90 @@
         '</div>';
     screen.appendChild(egg);
 
+    /* Fireworks behind the figure: rockets climb, burst into sparks that
+       fall under gravity, fade and leave short trails. */
+    var sky = document.createElement('canvas');
+    sky.className = 'egg-sky';
+    egg.insertBefore(sky, egg.firstChild);
+    var ctx = sky.getContext && sky.getContext('2d');
+    var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var COLOURS = ['#4dff8f', '#ffd36b', '#ff7a59', '#7dd3fc', '#f472b6', '#ffffff'];
+    var rockets = [], sparks = [], fwRaf = null, fwUntil = 0, nextLaunch = 0, W = 0, H = 0;
+
+    function sizeSky() {
+        var r = sky.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = r.width; H = r.height;
+        sky.width = Math.max(1, Math.round(W * dpr));
+        sky.height = Math.max(1, Math.round(H * dpr));
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function launch() {
+        rockets.push({
+            x: W * (0.15 + Math.random() * 0.7), y: H,
+            vx: (Math.random() - 0.5) * 1.2, vy: -(H / 55 + Math.random() * 2.2),
+            colour: COLOURS[Math.floor(Math.random() * COLOURS.length)]
+        });
+    }
+
+    function burst(r) {
+        var n = 60 + Math.floor(Math.random() * 30), ring = Math.random() < 0.3;
+        for (var i = 0; i < n; i++) {
+            var a = (i / n) * Math.PI * 2, s = ring ? 2.6 : 0.6 + Math.random() * 2.6;
+            sparks.push({ x: r.x, y: r.y, px: r.x, py: r.y, vx: Math.cos(a) * s, vy: Math.sin(a) * s,
+                life: 1, decay: 0.009 + Math.random() * 0.01, colour: Math.random() < 0.15 ? '#ffffff' : r.colour });
+        }
+    }
+
+    function frame(t) {
+        // Fade the previous frame for trails
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.18)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.globalCompositeOperation = 'lighter';
+
+        if (t < fwUntil && t > nextLaunch) { launch(); nextLaunch = t + 350 + Math.random() * 550; }
+
+        for (var i = rockets.length - 1; i >= 0; i--) {
+            var r = rockets[i];
+            r.px = r.x; r.py = r.y;
+            r.x += r.vx; r.y += r.vy; r.vy += 0.09;
+            ctx.strokeStyle = '#ffe9a8'; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(r.px, r.py); ctx.lineTo(r.x, r.y); ctx.stroke();
+            if (r.vy >= -0.6 || r.y < H * 0.12) { burst(r); rockets.splice(i, 1); }
+        }
+
+        for (var k = sparks.length - 1; k >= 0; k--) {
+            var s = sparks[k];
+            s.px = s.x; s.py = s.y;
+            s.vx *= 0.985; s.vy = s.vy * 0.985 + 0.035;
+            s.x += s.vx; s.y += s.vy;
+            s.life -= s.decay;
+            if (s.life <= 0) { sparks.splice(k, 1); continue; }
+            ctx.globalAlpha = Math.max(0, s.life);
+            ctx.strokeStyle = s.colour; ctx.lineWidth = 2.2;
+            ctx.beginPath(); ctx.moveTo(s.px, s.py); ctx.lineTo(s.x, s.y); ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+
+        if (t < fwUntil || rockets.length || sparks.length) fwRaf = requestAnimationFrame(frame);
+        else { ctx.clearRect(0, 0, W, H); fwRaf = null; }
+    }
+
+    function fireworks(ms) {
+        if (!ctx || calm) return;
+        sizeSky();
+        fwUntil = performance.now() + ms;
+        nextLaunch = 0;
+        if (!fwRaf) fwRaf = requestAnimationFrame(frame);
+    }
+
     var playing = false;
     function play() {
         if (playing) return;
         playing = true;
         term.classList.add('show-egg');
+        fireworks(7800);
         setTimeout(function () {
             term.classList.remove('show-egg');
             playing = false;
