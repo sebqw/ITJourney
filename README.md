@@ -32,6 +32,8 @@ The site is published to GitHub Pages by the workflow in `.github/workflows/depl
 - `crm/`: FOV CRM 2.0, running with demo data and saving changes in the visitor's browser only
 - `notes/`: the documentation hub (`notes/ms102-cards.js` holds the flashcards)
 - `CSS/styles.css`: all styling, with the colour palette at the top
+- `CSS/fonts.css` and `fonts/`: the site's fonts, hosted here rather than loaded from Google
+- `js/theme-init.js`: applies the saved light or dark theme before the page appears
 - `js/site.js`: shared behaviour (phone menu, light and dark switch, scroll effects)
 - `js/terminal.js`: the PowerShell window in the header
 - `js/slideshow.js`: the project image slideshow
@@ -41,8 +43,18 @@ The site is published to GitHub Pages by the workflow in `.github/workflows/depl
 - `images/`: images used by the site
 - `Sebastian-Quintana-Warsop-CV.pdf`: my CV
 
+## Security
+
+The site is static, has no logins, and doesn't collect or store visitor data. The CRM demo saves only to the visitor's own browser.
+
+- Every page sets a strict Content Security Policy: scripts, styles, fonts and images only load from this site, with no inline scripts.
+- Fonts are self-hosted, so the site makes no third-party requests.
+- A `security.txt` file in `.well-known/` says how to report a security issue.
+
+Some HTTP headers, including CORS, X-Frame-Options, X-Content-Type-Options and HSTS, are set by GitHub Pages and can't be changed from the repository. Setting those would need a custom domain behind a service such as Cloudflare.
+
 ## Credits
 
 - Photography: all photos on the site, including the header image, are my own. © Sebastian Quintana Warsop, all rights reserved. Please ask before reusing them.
 - Favicon: [Dewi Sari](https://www.flaticon.com/authors/dewi-sari) on [Flaticon](https://www.flaticon.com/)
-- Fonts: Sora, Roboto and JetBrains Mono from [Google Fonts](https://fonts.google.com/)
+- Fonts: Sora, Roboto and JetBrains Mono, under the SIL Open Font License (copies in `fonts/`), via [Fontsource](https://fontsource.org/)

@@ -34,7 +34,10 @@
         // Wrap each highlight so the black bar follows the lines of text
         var texts = items.map(function (li, i) {
             var t = li.textContent.trim();
-            li.innerHTML = '<span class="hl-text">' + t + '</span>';
+            var span = document.createElement('span');
+            span.className = 'hl-text';
+            span.textContent = t;
+            li.replaceChildren(span);
             li.style.setProperty('--i', i);
             return t;
         });

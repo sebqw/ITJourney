@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MS-102 Revision Cards | Sebastian Quintana Warsop</title>
     <meta name="description" content="Flashcards I use to revise for Microsoft 365 Administrator (MS-102): tenant setup, roles, identity sync, security and Microsoft Purview.">
@@ -11,12 +13,10 @@
     <link rel="icon" href="../favicon.ico?v=4" sizes="any">
     <link rel="icon" type="image/png" href="../images/favicon-32.png?v=4">
     <link rel="apple-touch-icon" href="../images/apple-touch-icon.png?v=4">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=La+Belle+Aurore&family=Roboto:wght@400;500;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/fonts.css">
     <link rel="stylesheet" href="../CSS/styles.css">
     <link rel="stylesheet" href="notes.css">
-    <script>try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+    <script src="../js/theme-init.js"></script>
 </head>
 
 <body class="notes-page">
