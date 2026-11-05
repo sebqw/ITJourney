@@ -421,8 +421,11 @@ a {
   animation: t-spin 8s linear infinite;
   box-shadow: 0 30px 60px -20px rgba(8, 30, 16, 0.45), 0 0 40px -10px rgba(77, 255, 143, 0.18);
   font-family: var(--mono);
-  font-size: 0.82rem;
-  line-height: 1.75;
+  font-size: 0.74rem;
+  line-height: 1.65;
+  width: 100%;
+  max-width: 25rem;
+  justify-self: end;
 }
 
 .terminal-body {
@@ -453,7 +456,7 @@ a {
 .terminal.is-dragging { z-index: 50; }
 .terminal.is-dragging .terminal-bar { cursor: grabbing; }
 .terminal.is-dragging { box-shadow: 0 45px 80px -20px rgba(8, 30, 16, 0.55), 0 0 50px -8px rgba(77, 255, 143, 0.3); }
-.terminal.is-snapping { transition: translate 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.terminal.is-snapping { transition: translate 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), rotate 0.5s ease; }
 
 /* Title bar: Mac-style window buttons, centred title like a Linux/Mac terminal */
 .terminal-bar {
@@ -461,31 +464,27 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.6rem 0.9rem;
+  padding: 0.45rem 0.8rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
   font-family: var(--body);
-  font-size: 0.74rem;
+  font-size: 0.68rem;
   color: #9fb0a6;
 }
 
 .t-lights {
   position: absolute;
-  left: 0.9rem;
+  left: 0.8rem;
   display: flex;
-  gap: 0.45rem;
+  gap: 0.35rem;
 }
 
 .t-lights i {
-  width: 0.72rem;
-  height: 0.72rem;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 50%;
-  background: #ff5f57;
-  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.16);
 }
-
-.t-lights i:nth-child(2) { background: #febc2e; }
-.t-lights i:nth-child(3) { background: #28c840; }
 
 .t-title {
   display: inline-flex;
@@ -497,14 +496,14 @@ a {
   max-width: calc(100% - 7rem);
 }
 
-.t-title svg { flex: none; width: 0.8rem; height: 0.8rem; color: var(--t-green); }
+.t-title svg { flex: none; width: 0.65rem; height: 0.65rem; color: var(--t-green); }
 
 .t-path { color: #7dd3fc; text-shadow: none; }
 
 .terminal pre {
   position: relative;
   margin: 0;
-  padding: 1rem 1.25rem 1.3rem;
+  padding: 0.85rem 1rem 1rem;
   color: #dff7e8;
   white-space: pre-wrap;
   overflow-x: auto;
@@ -547,7 +546,7 @@ a {
 .t-egg {
   position: absolute;
   inset: 0;
-  top: 2.35rem;
+  top: 1.9rem;
   z-index: 1;
   display: flex;
   align-items: center;

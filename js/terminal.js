@@ -206,9 +206,10 @@
     });
 })();
 
-/* ---------- Drag the window by its title bar ----------
-   Like a real desktop window. It stays inside the browser window,
-   and double-clicking the title bar snaps it back into place. */
+/* ---------- Drag the window by its title bar, with physics ----------
+   Grab the title bar and throw it: the window keeps its momentum,
+   slows down with friction, bounces off the edges of the browser window
+   and tilts as it moves. Double-click the title bar to send it home. */
 (function () {
     'use strict';
 
@@ -216,17 +217,63 @@
     var bar = term && term.querySelector('.terminal-bar');
     if (!bar) return;
 
-    var x = 0, y = 0, startX, startY, baseX, baseY, dragging = false;
+    var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var FRICTION = 0.94;    // speed kept each frame (1 = ice)
+    var BOUNCE = 0.55;      // speed kept after hitting an edge
+    var MAX_TILT = 8;       // degrees
 
-    function place() {
-        term.style.translate = x + 'px ' + y + 'px';
+    var x = 0, y = 0, vx = 0, vy = 0, tilt = 0;
+    var dragging = false, grabX, grabY, lastX, lastY, lastT, raf = null;
+
+    function render() {
+        term.style.translate = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px';
+        term.style.rotate = calm ? '' : tilt.toFixed(2) + 'deg';
+    }
+
+    // The window's home position on screen, without our offset
+    function home() {
+        var r = term.getBoundingClientRect();
+        return { left: r.left - x, top: r.top - y, w: r.width, h: r.height };
+    }
+
+    // Keep the window inside the visible part of the page; returns which edges it hit
+    function contain() {
+        var b = home();
+        var vw = document.documentElement.clientWidth, vh = window.innerHeight;
+        var minX = -b.left, maxX = vw - b.w - b.left;
+        var minY = -b.top, maxY = vh - b.h - b.top;
+        var hit = false;
+        if (maxX < minX) maxX = minX;
+        if (maxY < minY) maxY = minY;
+        if (x < minX) { x = minX; vx = Math.abs(vx) * BOUNCE; hit = true; }
+        if (x > maxX) { x = maxX; vx = -Math.abs(vx) * BOUNCE; hit = true; }
+        if (y < minY) { y = minY; vy = Math.abs(vy) * BOUNCE; hit = true; }
+        if (y > maxY) { y = maxY; vy = -Math.abs(vy) * BOUNCE; hit = true; }
+        return hit;
+    }
+
+    function glide() {
+        vx *= FRICTION;
+        vy *= FRICTION;
+        x += vx;
+        y += vy;
+        contain();
+        tilt += (Math.max(-MAX_TILT, Math.min(MAX_TILT, vx * 0.35)) - tilt) * 0.2;
+        render();
+        if (Math.abs(vx) > 0.15 || Math.abs(vy) > 0.15 || Math.abs(tilt) > 0.05) {
+            raf = requestAnimationFrame(glide);
+        } else {
+            tilt = 0; render(); raf = null;
+        }
     }
 
     bar.addEventListener('pointerdown', function (e) {
         if (e.button !== 0) return;
+        if (raf) cancelAnimationFrame(raf), raf = null;
         dragging = true;
-        startX = e.clientX; startY = e.clientY;
-        baseX = x; baseY = y;
+        grabX = e.clientX - x; grabY = e.clientY - y;
+        lastX = e.clientX; lastY = e.clientY; lastT = performance.now();
+        vx = vy = 0;
         bar.setPointerCapture(e.pointerId);
         term.classList.add('is-dragging');
         e.preventDefault();
@@ -234,32 +281,38 @@
 
     bar.addEventListener('pointermove', function (e) {
         if (!dragging) return;
-        var nx = baseX + e.clientX - startX;
-        var ny = baseY + e.clientY - startY;
-        // Keep at least part of the window on screen
-        var r = term.getBoundingClientRect();
-        var left = r.left - x + nx, top = r.top - y + ny;
-        var vw = document.documentElement.clientWidth, vh = window.innerHeight;
-        if (left < -r.width + 80) nx += -r.width + 80 - left;
-        if (left > vw - 80) nx -= left - (vw - 80);
-        if (top < 0) ny -= top;
-        if (top > vh - 40) ny -= top - (vh - 40);
-        x = nx; y = ny;
-        place();
+        var now = performance.now(), dt = Math.max(8, now - lastT);
+        // Velocity in px per 60fps frame, smoothed
+        vx = vx * 0.5 + ((e.clientX - lastX) / dt * 16.7) * 0.5;
+        vy = vy * 0.5 + ((e.clientY - lastY) / dt * 16.7) * 0.5;
+        lastX = e.clientX; lastY = e.clientY; lastT = now;
+        x = e.clientX - grabX;
+        y = e.clientY - grabY;
+        contain();
+        tilt += (Math.max(-MAX_TILT, Math.min(MAX_TILT, vx * 0.6)) - tilt) * 0.3;
+        render();
     });
 
-    function stop() {
+    function release() {
         if (!dragging) return;
         dragging = false;
         term.classList.remove('is-dragging');
+        // A pause before letting go means no throw
+        if (performance.now() - lastT > 80) { vx = vy = 0; }
+        if (calm) { vx = vy = 0; tilt = 0; render(); return; }
+        raf = requestAnimationFrame(glide);
     }
-    bar.addEventListener('pointerup', stop);
-    bar.addEventListener('pointercancel', stop);
+    bar.addEventListener('pointerup', release);
+    bar.addEventListener('pointercancel', release);
 
     bar.addEventListener('dblclick', function () {
+        if (raf) cancelAnimationFrame(raf), raf = null;
+        vx = vy = 0; x = 0; y = 0; tilt = 0;
         term.classList.add('is-snapping');
-        x = 0; y = 0;
-        place();
-        setTimeout(function () { term.classList.remove('is-snapping'); }, 450);
+        render();
+        setTimeout(function () { term.classList.remove('is-snapping'); }, 500);
     });
+
+    // If the page scrolls or resizes, keep the window reachable
+    window.addEventListener('resize', function () { if (x || y) { contain(); render(); } });
 })();
