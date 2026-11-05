@@ -1,29 +1,44 @@
 # ITJourney
 
-My personal site and CV: Sebastian Quintana Warsop, Tier 2 Service Desk Analyst.
+My personal site and CV: Sebastian Quintana Warsop, Tier 2 Service Desk Analyst at a managed service provider, working in Microsoft 365, security and desktop and application support.
 
 Live at [sebqw.github.io/ITJourney](https://sebqw.github.io/ITJourney/)
 
 ![Site preview](images/site-preview.webp)
 
-## What's here
+## What's on the site
 
-- `index.html`: the main page (about, experience, skills, qualifications, projects, contact)
-- `project.html`: the story of **FOV CRM**, the client management app from my IT apprenticeship (C# Windows Forms) and its 2.0 rebuild
-- `crm/`: **FOV CRM 2.0**, the rebuilt app, running live in the browser with demo data
-- `notes/`: my documentation hub, including MS-102 revision flashcards (`notes/ms102-cards.js` holds the cards)
-- `CSS/styles.css`: all styling
-- `js/site.js`: shared behaviour (phone menu, light/dark switch, scroll effects)
-- `js/slideshow.js`: the project image slideshow
-- `js/packet-run.js`: Packet Run, the small game on the home page
-- `images/`: WebP images used by the site
+- **CV:** experience, skills, qualifications and projects, with a downloadable PDF CV
+- **FOV CRM 2.0:** my apprenticeship client management app, rebuilt to run live in the browser
+- **Notes:** my documentation hub, starting with MS-102 revision flashcards
+- **Packet Run:** a small maze game I made for the site
+- **A PowerShell window** in the header that types out my profile. You can drag it around by its title bar.
 
-## Running it
+It has a light and a dark theme, and works on phones.
 
-It's plain HTML, CSS and JavaScript with no build step. Open `index.html` in a browser.
+## How it's built
+
+I built the first version of this site myself in 2022 during my IT apprenticeship. In 2026 I rebuilt and extended it with the help of AI tools.
+
+It's plain HTML, CSS and JavaScript with no frameworks and no build step. Open `index.html` in a browser to run it locally.
 
 The site is published to GitHub Pages by the workflow in `.github/workflows/deploy-pages.yml`.
 
+## Files
+
+- `index.html`: the main page
+- `project.html`: the story of FOV CRM, from the original C# Windows Forms app to the 2.0 rebuild
+- `crm/`: FOV CRM 2.0, running with demo data and saving changes in the visitor's browser only
+- `notes/`: the documentation hub (`notes/ms102-cards.js` holds the flashcards)
+- `CSS/styles.css`: all styling, with the colour palette at the top
+- `js/site.js`: shared behaviour (phone menu, light and dark switch, scroll effects)
+- `js/terminal.js`: the PowerShell window in the header
+- `js/slideshow.js`: the project image slideshow
+- `js/packet-run.js`: Packet Run
+- `images/`: images used by the site
+- `Sebastian-Quintana-Warsop-CV.pdf`: my CV
+
 ## Credits
 
-- Favicon by [Magnific](https://www.flaticon.com/authors/magnific) on [Flaticon](https://www.flaticon.com/)
+- Favicon: [Dewi Sari](https://www.flaticon.com/authors/dewi-sari) on [Flaticon](https://www.flaticon.com/)
+- Fonts: Sora, Roboto and JetBrains Mono from [Google Fonts](https://fonts.google.com/)
