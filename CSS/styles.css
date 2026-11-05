@@ -390,7 +390,7 @@ a {
   width: 100%;
   aspect-ratio: 21 / 8;
   object-fit: cover;
-  object-position: 70% 55%;
+  object-position: 50% 85%;
   border-radius: var(--radius);
 }
 
