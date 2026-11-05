@@ -135,7 +135,7 @@
 
 /* ---------- Easter egg: Bonfire Night ----------
    After 30 seconds on the page (or a click on the monitor's power light),
-   the screen glitches and Guy Fawkes appears with his lantern,
+   a moustached chap appears on screen
    along with the old rhyme. Then the screen flips back. */
 (function () {
     'use strict';
@@ -146,30 +146,35 @@
 
     var FIGURE =
         '<svg viewBox="0 0 120 160" aria-hidden="true" focusable="false">' +
-        // Tall capotain hat with a wide brim
-        '<path d="M42 10 h34 l4 34 h-42 z"/>' +
-        '<path d="M28 44 h64 a4 3 0 0 1 0 6 h-64 a4 3 0 0 1 0-6z"/>' +
-        '<rect x="38" y="36" width="42" height="4" class="band"/>' +
-        // Head in profile, beard and ruff collar
-        '<path d="M44 50 h32 c2 8 1 16 -3 22 l4 4 -4 2 c-3 6 -10 9 -17 8 c-6 -2 -10 -8 -12 -16z"/>' +
-        '<path d="M38 84 c8 6 36 6 44 0 l3 6 c-10 8 -40 8 -50 0z" class="band"/>' +
-        // Long cloak
-        '<path d="M36 90 c-14 20 -22 48 -24 68 h96 c-2 -20 -10 -48 -24 -68 c-14 6 -34 6 -48 0z"/>' +
-        // Arm reaching out with the lantern
-        '<path d="M80 98 c8 6 14 14 16 22 l-6 2 c-3 -6 -8 -12 -14 -16z"/>' +
-        '<path d="M88 122 h14 v4 h-14z"/>' +
-        '<rect x="89" y="126" width="12" height="16" rx="2" class="lantern"/>' +
-        '<path d="M88 142 h14 v3 h-14z"/>' +
+        // Shoulders and collar
+        '<path d="M14 158 c2 -26 18 -40 46 -40 s44 14 46 40z"/>' +
+        '<path d="M46 118 l14 16 14 -16" class="band"/>' +
+        // Neck and head
+        '<path d="M50 104 h20 v16 h-20z"/>' +
+        '<ellipse cx="60" cy="70" rx="30" ry="36"/>' +
+        // Ears
+        '<path d="M30 66 c-7 -2 -9 10 -1 14z M90 66 c7 -2 9 10 1 14z"/>' +
+        // Short hair with a side parting
+        '<path d="M30 60 c-2 -26 14 -36 32 -36 c18 0 30 12 28 36 c-6 -12 -14 -18 -26 -18 c-4 6 -14 10 -34 18z" class="band"/>' +
+        // Eyebrows and eyes
+        '<path d="M42 58 q6 -4 12 0 M66 58 q6 -4 12 0" fill="none"/>' +
+        '<circle cx="48" cy="66" r="2.6" class="eye"/><circle cx="72" cy="66" r="2.6" class="eye"/>' +
+        // Nose
+        '<path d="M60 68 q-4 10 0 14" fill="none"/>' +
+        // Big bushy moustache
+        '<path d="M60 84 c-6 -4 -16 -4 -24 2 c-4 3 -8 2 -10 0 c2 8 10 12 18 10 c7 -1 12 -5 16 -7 c4 2 9 6 16 7 c8 2 16 -2 18 -10 c-2 2 -6 3 -10 0 c-8 -6 -18 -6 -24 -2z" class="tache"/>' +
+        // Small smile
+        '<path d="M53 96 q7 4 14 0" fill="none"/>' +
         '</svg>';
 
     var egg = document.createElement('div');
     egg.className = 't-egg';
     egg.setAttribute('aria-hidden', 'true');
     egg.innerHTML =
-        '<div class="egg-figure">' + FIGURE + '<i class="egg-glow"></i></div>' +
+        '<div class="egg-figure">' + FIGURE + '</div>' +
         '<div class="egg-text">' +
         '<p class="egg-rhyme">Remember, remember<br>the fifth of November,<br>gunpowder, treason<br>and plot.</p>' +
-        '<p class="egg-sign">// Guy Fawkes, 1605</p>' +
+        '<p class="egg-sign"># 5 November</p>' +
         '</div>';
     screen.appendChild(egg);
 
@@ -187,5 +192,65 @@
     setTimeout(play, 30000);
 
     // Double-clicking the window replays it
-    term.addEventListener('dblclick', play);
+    term.addEventListener('dblclick', function (e) {
+        if (!e.target.closest('.terminal-bar')) play();
+    });
+})();
+
+/* ---------- Drag the window by its title bar ----------
+   Like a real desktop window. It stays inside the browser window,
+   and double-clicking the title bar snaps it back into place. */
+(function () {
+    'use strict';
+
+    var term = document.querySelector('.terminal');
+    var bar = term && term.querySelector('.terminal-bar');
+    if (!bar) return;
+
+    var x = 0, y = 0, startX, startY, baseX, baseY, dragging = false;
+
+    function place() {
+        term.style.translate = x + 'px ' + y + 'px';
+    }
+
+    bar.addEventListener('pointerdown', function (e) {
+        if (e.button !== 0) return;
+        dragging = true;
+        startX = e.clientX; startY = e.clientY;
+        baseX = x; baseY = y;
+        bar.setPointerCapture(e.pointerId);
+        term.classList.add('is-dragging');
+        e.preventDefault();
+    });
+
+    bar.addEventListener('pointermove', function (e) {
+        if (!dragging) return;
+        var nx = baseX + e.clientX - startX;
+        var ny = baseY + e.clientY - startY;
+        // Keep at least part of the window on screen
+        var r = term.getBoundingClientRect();
+        var left = r.left - x + nx, top = r.top - y + ny;
+        var vw = document.documentElement.clientWidth, vh = window.innerHeight;
+        if (left < -r.width + 80) nx += -r.width + 80 - left;
+        if (left > vw - 80) nx -= left - (vw - 80);
+        if (top < 0) ny -= top;
+        if (top > vh - 40) ny -= top - (vh - 40);
+        x = nx; y = ny;
+        place();
+    });
+
+    function stop() {
+        if (!dragging) return;
+        dragging = false;
+        term.classList.remove('is-dragging');
+    }
+    bar.addEventListener('pointerup', stop);
+    bar.addEventListener('pointercancel', stop);
+
+    bar.addEventListener('dblclick', function () {
+        term.classList.add('is-snapping');
+        x = 0; y = 0;
+        place();
+        setTimeout(function () { term.classList.remove('is-snapping'); }, 450);
+    });
 })();

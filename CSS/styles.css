@@ -447,39 +447,59 @@ a {
   mask-image: linear-gradient(to left, #000 15%, transparent 70%);
 }
 
-/* Tab bar like Windows Terminal */
+/* Movable window (js/terminal.js) */
+.terminal { z-index: 5; }
+.terminal-bar { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+.terminal.is-dragging { z-index: 50; }
+.terminal.is-dragging .terminal-bar { cursor: grabbing; }
+.terminal.is-dragging { box-shadow: 0 45px 80px -20px rgba(8, 30, 16, 0.55), 0 0 50px -8px rgba(77, 255, 143, 0.3); }
+.terminal.is-snapping { transition: translate 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+/* Title bar: Mac-style window buttons, centred title like a Linux/Mac terminal */
 .terminal-bar {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.5rem 0.75rem;
+  justify-content: center;
+  padding: 0.6rem 0.9rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
   font-family: var(--body);
-  font-size: 0.75rem;
-  color: #c7d3cc;
+  font-size: 0.74rem;
+  color: #9fb0a6;
 }
 
-.t-tab {
+.t-lights {
+  position: absolute;
+  left: 0.9rem;
+  display: flex;
+  gap: 0.45rem;
+}
+
+.t-lights i {
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+  background: #ff5f57;
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+}
+
+.t-lights i:nth-child(2) { background: #febc2e; }
+.t-lights i:nth-child(3) { background: #28c840; }
+
+.t-title {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.25rem 0.7rem;
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.06);
+  gap: 0.4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 7rem);
 }
 
-.t-tab svg { width: 0.85rem; height: 0.85rem; color: var(--t-green); }
+.t-title svg { flex: none; width: 0.8rem; height: 0.8rem; color: var(--t-green); }
 
-.t-plus { color: var(--t-mute); font-size: 0.9rem; }
-
-.t-win {
-  margin-left: auto;
-  display: flex;
-  gap: 0.9rem;
-  color: var(--t-mute);
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
-}
+.t-path { color: #7dd3fc; text-shadow: none; }
 
 .terminal pre {
   position: relative;
@@ -523,11 +543,11 @@ a {
   to   { text-shadow: none; }
 }
 
-/* Easter egg: Guy Fawkes on Bonfire Night (js/terminal.js) */
+/* Easter egg on Bonfire Night (js/terminal.js) */
 .t-egg {
   position: absolute;
   inset: 0;
-  top: 2.4rem;
+  top: 2.35rem;
   z-index: 1;
   display: flex;
   align-items: center;
@@ -563,7 +583,8 @@ a {
 }
 
 .egg-figure .band { fill: #16301f; }
-.egg-figure .lantern { fill: #ffe9a8; stroke: #ffd36b; }
+.egg-figure .eye { fill: var(--t-green); stroke: none; }
+.egg-figure .tache { fill: var(--t-green); stroke: none; filter: drop-shadow(0 0 4px rgba(77, 255, 143, 0.6)); }
 
 .egg-glow {
   position: absolute;
