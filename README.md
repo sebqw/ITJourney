@@ -1,8 +1,8 @@
-# ITjourney
+# ITJourney
 
 My personal site and CV: Sebastian Quintana Warsop, Tier 2 Service Desk Analyst.
 
-Live at [sebqw.github.io/ITjourney](https://sebqw.github.io/ITjourney/)
+Live at [sebqw.github.io/ITJourney](https://sebqw.github.io/ITJourney/)
 
 ![Site preview](images/site-preview.webp)
 
