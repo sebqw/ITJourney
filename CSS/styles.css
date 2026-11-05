@@ -583,6 +583,10 @@ a {
 }
 
 .egg-figure .band { fill: #16301f; }
+.egg-figure .beard { fill: #12301d; }
+.egg-figure .strand { stroke: var(--t-green-dim); stroke-width: 1; }
+.egg-figure .hat { fill: #0b140e; }
+.egg-figure .buckle { fill: none; stroke: #ffd36b; }
 .egg-figure .eye { fill: var(--t-green); stroke: none; }
 .egg-figure .tache { fill: var(--t-green); stroke: none; filter: drop-shadow(0 0 4px rgba(77, 255, 143, 0.6)); }
 

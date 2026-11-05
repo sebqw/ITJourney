@@ -154,8 +154,8 @@
         '<ellipse cx="60" cy="70" rx="30" ry="36"/>' +
         // Ears
         '<path d="M30 66 c-7 -2 -9 10 -1 14z M90 66 c7 -2 9 10 1 14z"/>' +
-        // Short hair with a side parting
-        '<path d="M30 60 c-2 -26 14 -36 32 -36 c18 0 30 12 28 36 c-6 -12 -14 -18 -26 -18 c-4 6 -14 10 -34 18z" class="band"/>' +
+        // Hair peeking out under the hat
+        '<path d="M30 62 c-1 -8 1 -14 4 -18 h52 c3 4 5 10 4 18 c-4 -6 -8 -9 -12 -10 h-36 c-4 1 -8 4 -12 10z" class="band"/>' +
         // Eyebrows and eyes
         '<path d="M42 58 q6 -4 12 0 M66 58 q6 -4 12 0" fill="none"/>' +
         '<circle cx="48" cy="66" r="2.6" class="eye"/><circle cx="72" cy="66" r="2.6" class="eye"/>' +
@@ -163,8 +163,17 @@
         '<path d="M60 68 q-4 10 0 14" fill="none"/>' +
         // Big bushy moustache
         '<path d="M60 84 c-6 -4 -16 -4 -24 2 c-4 3 -8 2 -10 0 c2 8 10 12 18 10 c7 -1 12 -5 16 -7 c4 2 9 6 16 7 c8 2 16 -2 18 -10 c-2 2 -6 3 -10 0 c-8 -6 -18 -6 -24 -2z" class="tache"/>' +
-        // Small smile
-        '<path d="M53 96 q7 4 14 0" fill="none"/>' +
+        // Big bushy beard, drawn as soft scallops
+        '<path d="M34 86 c-2 10 0 20 6 28 c3 -2 5 0 6 3 c3 -2 6 -1 7 2 c3 -2 6 -2 7 1 c1 -3 4 -3 7 -1 c1 -3 4 -5 7 -3 c1 -3 3 -5 6 -3 c6 -8 8 -18 6 -27 c-4 6 -10 8 -16 6 c-4 4 -10 6 -14 6 s-10 -2 -14 -6 c-6 2 -12 0 -16 -6z" class="beard"/>' +
+        // Beard texture
+        '<path d="M46 100 q2 6 0 12 M60 102 q2 7 0 14 M74 100 q-2 6 0 12" fill="none" class="strand"/>' +
+        // Moustache again on top of the beard
+        '<path d="M60 84 c-6 -4 -16 -4 -24 2 c-4 3 -8 2 -10 0 c2 8 10 12 18 10 c7 -1 12 -5 16 -7 c4 2 9 6 16 7 c8 2 16 -2 18 -10 c-2 2 -6 3 -10 0 c-8 -6 -18 -6 -24 -2z" class="tache"/>' +
+        // Tall flat-topped hat with a wide brim and buckle band, as worn in 1605
+        '<path d="M40 6 c0 -3 40 -3 40 0 l4 36 h-48z" class="hat"/>' +
+        '<path d="M36 32 h48 v8 h-48z" class="band"/>' +
+        '<rect x="55" y="32" width="10" height="8" rx="1" class="buckle"/>' +
+        '<path d="M18 42 c10 -3 74 -3 84 0 c3 1 3 5 0 6 c-12 3 -72 3 -84 0 c-3 -1 -3 -5 0 -6z" class="hat"/>' +
         '</svg>';
 
     var egg = document.createElement('div');
