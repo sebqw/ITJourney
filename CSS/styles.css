@@ -450,6 +450,33 @@ a {
   mask-image: linear-gradient(to left, #000 15%, transparent 70%);
 }
 
+/* ---------- Terms page ---------- */
+
+.legal-byline {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.legal { padding: clamp(2rem, 5vw, 3.5rem) 0; }
+
+.legal-wrap { max-width: 46rem; }
+
+.legal section { padding: 0; margin-bottom: 2rem; }
+
+.legal h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+
+.legal p, .legal li { color: var(--ink-soft); }
+.legal p + p { margin-top: 0.75rem; }
+.legal ul { margin: 0.6rem 0 0; padding-left: 1.2rem; }
+.legal li { margin-bottom: 0.5rem; }
+.legal strong { color: var(--ink); }
+.legal a { color: var(--teal); }
+
 /* ---------- Photography ---------- */
 
 .gallery {

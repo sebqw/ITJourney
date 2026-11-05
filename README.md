@@ -29,6 +29,7 @@ The site is published to GitHub Pages by the workflow in `.github/workflows/depl
 
 - `index.html`: the main page
 - `project.html`: the story of FOV CRM, from the original C# Windows Forms app to the 2.0 rebuild
+- `terms.html`: terms of use and privacy, written in the voice of a fictional lawyer
 - `crm/`: FOV CRM 2.0, running with demo data and saving changes in the visitor's browser only
 - `notes/`: the documentation hub (`notes/ms102-cards.js` holds the flashcards)
 - `CSS/styles.css`: all styling, with the colour palette at the top
