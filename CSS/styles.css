@@ -1927,79 +1927,44 @@ kbd {
   margin-bottom: 1rem;
 }
 
-/* Classified highlights (js/declassify.js) */
-.hl-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin: 1rem 0 0.5rem;
-}
-
-.hl-head .highlights-label { margin: 0; }
-
-.hl-count {
-  color: var(--ink-soft);
-  letter-spacing: 0.04em;
-}
-
-.hl-head .highlights-label { white-space: nowrap; }
-
-@media (max-width: 30rem) {
-  .hl-count { display: none; }
-}
-
-.hl-reveal {
+/* Highlights behind a blinking-cursor prompt (js/highlights.js) */
+.hl-prompt {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.7rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--card);
-  color: var(--ink);
-  font: 600 0.72rem/1 var(--mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  gap: 0.35rem;
+  padding: 0.25rem 0.1rem;
+  border: 0;
+  background: none;
+  color: var(--teal);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
   cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.hl-reveal:hover { border-color: var(--teal); }
+.hl-ps { color: var(--clay); transition: transform 0.25s ease; }
+.hl-prompt.is-open .hl-ps { transform: rotate(90deg); }
+.hl-num { color: var(--ink-soft); }
+.hl-prompt:hover .hl-word { text-decoration: underline; text-underline-offset: 3px; }
+.hl-prompt:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 4px; }
 
-.hl-reveal svg { width: 0.9rem; height: 0.9rem; color: var(--clay); }
-.hl-reveal .shackle { transition: transform 0.35s ease; transform-origin: 16px 11px; }
-.hl-reveal[aria-expanded="true"] svg { color: var(--teal); }
-.hl-reveal[aria-expanded="true"] .shackle { transform: translateY(-2px) rotate(35deg); }
-
-/* The black bars: a background that shrinks away to the right, line by line */
-.job-highlights .hl-text {
-  background: linear-gradient(var(--ink), var(--ink)) no-repeat right center / 0% 100%;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  border-radius: 3px;
-  padding: 0 0.15em;
-  transition: background-size 0.55s cubic-bezier(0.7, 0, 0.3, 1), color 0.3s ease;
-  transition-delay: calc(var(--i, 0) * 180ms);
+.hl-caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1.05em;
+  margin-left: 0.15em;
+  vertical-align: text-bottom;
+  border-radius: 1px;
+  background: var(--teal);
+  animation: blink 1s steps(1) infinite;
 }
 
-.job-highlights.is-redacted { cursor: pointer; }
+.hl-caret[hidden] { display: none; }
 
-.job-highlights.is-redacted .hl-text {
-  background-size: 100% 100%;
-  color: transparent;
-  transition-delay: calc(var(--i, 0) * 60ms);
-  user-select: none;
-}
-
-.job-highlights.is-redacted li::marker { color: var(--ink-soft); }
-
-.job-highlights.is-redacted:hover .hl-text {
-  background-image: linear-gradient(90deg, var(--ink) 0 92%, var(--clay));
-}
+.job-highlights.hl-js li:not(.is-typed) { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .job-highlights .hl-text { transition: none; }
+  .hl-caret { animation: none; }
 }
 
 .job .job-highlights li::marker {

@@ -38,7 +38,7 @@ The site is published to GitHub Pages by the workflow in `.github/workflows/depl
 - `js/terminal.js`: the PowerShell window in the header
 - `js/slideshow.js`: the project image slideshow
 - `js/packet-run.js`: Packet Run
-- `js/declassify.js`: the redacted experience highlights
+- `js/highlights.js`: the experience highlights behind a blinking-cursor prompt
 - `js/gallery.js`: the photo viewer
 - `images/`: images used by the site
 - `Sebastian-Quintana-Warsop-CV.pdf`: my CV
