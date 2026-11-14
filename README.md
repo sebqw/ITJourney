@@ -11,7 +11,7 @@ Live at [sebqw.github.io/ITJourney](https://sebqw.github.io/ITJourney/)
 - **CV:** experience, skills, qualifications and projects, with a downloadable PDF CV
 - **FOV CRM 2.0:** my apprenticeship client management app, rebuilt to run live in the browser
 - **Photography:** a few of my own photos, with a full-size viewer
-- **Notes:** my documentation hub, starting with MS-102 revision flashcards
+- **Notes:** my documentation hub, with revision flashcards for SC-300 (identity and access) and my earlier MS-102 study
 - **Packet Run:** a small maze game I made for the site
 - **A PowerShell window** in the header that types out my profile. You can drag it around by its title bar.
 
@@ -31,7 +31,7 @@ The site is published to GitHub Pages by the workflow in `.github/workflows/depl
 - `project.html`: the story of FOV CRM, from the original C# Windows Forms app to the 2.0 rebuild
 - `terms.html`: terms of use and privacy, written in the voice of a fictional lawyer
 - `crm/`: FOV CRM 2.0, running with demo data and saving changes in the visitor's browser only
-- `notes/`: the documentation hub (`notes/ms102-cards.js` holds the flashcards)
+- `notes/`: the documentation hub (`notes/sc300-cards.js` and `notes/ms102-cards.js` hold the flashcards)
 - `CSS/styles.css`: all styling, with the colour palette at the top
 - `CSS/fonts.css` and `fonts/`: the site's fonts, hosted here rather than loaded from Google
 - `js/theme-init.js`: applies the saved light or dark theme before the page appears
@@ -41,6 +41,9 @@ The site is published to GitHub Pages by the workflow in `.github/workflows/depl
 - `js/packet-run.js`: Packet Run
 - `js/highlights.js`: the experience highlights behind a blinking-cursor prompt
 - `js/gallery.js`: the photo viewer
+- `js/contact.js`: reveals my email address only when someone clicks, so it can't be harvested from the page
+- `404.html`: the page shown for a broken link
+- `sitemap.xml`: the list of pages for search engines
 - `images/`: images used by the site
 - `Sebastian-Quintana-Warsop-CV.pdf`: my CV
 
@@ -50,6 +53,8 @@ The site is static, has no logins, and doesn't collect or store visitor data. Th
 
 - Every page sets a strict Content Security Policy: scripts, styles, fonts and images only load from this site, with no inline scripts.
 - Fonts are self-hosted, so the site makes no third-party requests.
+- My email address isn't written in the page source or the public CV. It's assembled only when a visitor clicks the button.
+- Pages ask AI crawlers not to use the content (`noai`, `noimageai`). Well-behaved crawlers respect this; it can't force the rest.
 - A `security.txt` file in `.well-known/` says how to report a security issue.
 
 Some HTTP headers, including CORS, X-Frame-Options, X-Content-Type-Options and HSTS, are set by GitHub Pages and can't be changed from the repository. Setting those would need a custom domain behind a service such as Cloudflare.

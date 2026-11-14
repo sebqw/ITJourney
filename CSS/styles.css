@@ -1256,6 +1256,9 @@ section {
   color: var(--ink-soft);
 }
 
+.contact .email:empty { display: none; }
+.contact .email a { color: inherit; }
+
 .contact .email {
   display: block;
   font-family: var(--mono);

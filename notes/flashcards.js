@@ -1,11 +1,15 @@
 // Flashcards for the notes section.
-// Reads cards from ms102-cards.js. Progress is saved in this browser only.
+// Each revision page loads its own cards file before this one. A cards file
+// can set window.NOTES_DECK = { key, topics, cards }; the older MS-102 file
+// sets MS102_CARDS and MS102_TOPICS instead.
+// Progress is saved in this browser only, separately for each deck.
 (function () {
     'use strict';
 
-    const CARDS = window.MS102_CARDS || [];
-    const TOPICS = window.MS102_TOPICS || [];
-    const STORE_KEY = 'notes.ms102.progress';
+    const DECK = window.NOTES_DECK || {};
+    const CARDS = DECK.cards || window.MS102_CARDS || [];
+    const TOPICS = DECK.topics || window.MS102_TOPICS || [];
+    const STORE_KEY = 'notes.' + (DECK.key || 'ms102') + '.progress';
 
     const $ = function (sel) { return document.querySelector(sel); };
 
