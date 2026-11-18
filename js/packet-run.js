@@ -565,11 +565,12 @@
     }
 
     let last = 0;
+    let onScreen = true;
     function frame(now) {
         const dt = Math.min(0.05, (now - last) / 1000 || 0);
         last = now;
-        update(dt);
-        draw();
+        // Skip the work while the game is scrolled away, to save battery
+        if (onScreen) { update(dt); draw(); }
         requestAnimationFrame(frame);
     }
 
@@ -671,7 +672,8 @@
     });
     if ('IntersectionObserver' in window) {
         new IntersectionObserver(function (entries) {
-            if (!entries[0].isIntersecting) pause();
+            onScreen = entries[0].isIntersecting;
+            if (!onScreen) pause();
         }, { threshold: 0.25 }).observe(canvas);
     }
 

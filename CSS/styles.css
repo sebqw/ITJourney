@@ -793,29 +793,11 @@ a {
 .egg-figure .eye { fill: var(--t-green); stroke: none; }
 .egg-figure .tache { fill: var(--t-green); stroke: none; filter: drop-shadow(0 0 4px rgba(77, 255, 143, 0.6)); }
 
-.egg-glow {
-  position: absolute;
-  left: 79%;
-  top: 84%;
-  width: 4.5rem;
-  height: 4.5rem;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 214, 120, 0.5), transparent 65%);
-  animation: lantern 1.4s ease-in-out infinite alternate;
-  pointer-events: none;
-}
-
 .egg-rhyme { margin: 0; font-size: 0.95rem; line-height: 1.6; }
 .egg-rhyme b { color: var(--t-green); font-weight: 600; }
 .egg-sign { margin: 0.9rem 0 0; font-size: 0.72rem; color: var(--t-mute); }
 
 .terminal.show-egg .egg-text { animation: egg-in 0.8s 0.3s ease-out both; }
-
-@keyframes lantern {
-  from { opacity: 0.55; scale: 0.92; }
-  to   { opacity: 1; scale: 1.08; }
-}
 
 @keyframes egg-in {
   from { opacity: 0; transform: translateY(8px); filter: blur(4px); }
@@ -830,7 +812,6 @@ a {
 @media (prefers-reduced-motion: reduce) {
   .terminal,
   .t-line.is-new,
-  .egg-glow,
   .terminal.show-egg .egg-text { animation: none; }
 }
 
@@ -1256,7 +1237,8 @@ section {
   color: var(--ink-soft);
 }
 
-.contact .email:empty { display: none; }
+.contact .email:empty,
+.contact .btn[hidden] { display: none; }
 .contact .email a { color: inherit; }
 
 .contact .email {

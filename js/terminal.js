@@ -277,7 +277,10 @@
         }, 9000);
     }
 
-    setTimeout(play, 30000);
+    setTimeout(function () {
+        var r = term.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < window.innerHeight) play();
+    }, 30000);
 
     // Double-clicking the window replays it
     term.addEventListener('dblclick', function (e) {

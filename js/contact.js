@@ -7,6 +7,7 @@
     var btn = document.getElementById('email-reveal');
     var slot = document.getElementById('email-slot');
     if (!btn || !slot) return;
+    btn.hidden = false;
 
     function flip(s) { return s.split('').reverse().join(''); }
 
