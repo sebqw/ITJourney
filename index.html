@@ -60,7 +60,6 @@
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#photos">Photos</a></li>
-                <li><a href="#play">Play</a></li>
                 <li><a href="notes/">Notes</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -87,12 +86,11 @@
 
             <div class="terminal" role="img" aria-label="A PowerShell window summarising Seb's profile">
                 <div class="terminal-body">
-                <canvas class="t-rain" aria-hidden="true"></canvas>
                 <div class="terminal-bar" aria-hidden="true">
                     <span class="t-lights"><i></i><i></i><i></i></span>
                     <span class="t-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7l6 5-6 5M13 17h6"/></svg>PowerShell</span>
                 </div>
-<pre aria-hidden="true"><span class="t-prompt">PS <span class="t-path">~/itjourney</span>&gt;</span> <span class="t-cmd">Get-Engineer</span> <span class="t-param">-Name</span> Seb
+<pre aria-hidden="true"><span class="t-prompt">PS <span class="t-path">~/itjourney</span>&gt;</span> <span class="t-cmd">Get-Profile</span> <span class="t-param">-Name</span> Seb
 
 <span class="t-key">Role       :</span> Tier 2 Service Desk Analyst
 <span class="t-key">Employer   :</span> PCS Business Systems (MSP)
@@ -297,8 +295,8 @@
                         <img src="images/project-2.webp" alt="FOV CRM's Client Activity screen" width="1326" height="828" loading="lazy" decoding="async">
                         <div class="project-body">
                             <h3>FOV CRM <span class="badge">2.0</span></h3>
-                            <p>My apprenticeship client management app, first built in C#, now rebuilt as a web app you can try live. Search, filter and update clients with risk and status tracking, with security considered from the start.</p>
-                            <ul class="chips"><li>JavaScript</li><li>HTML/CSS</li><li>C# (v1)</li><li>Security</li></ul>
+                            <p>My apprenticeship client management app, first built in C# with a database behind it. I rebuilt it to run in the browser so it can be tried without installing anything: search, filter and update clients, with input validation and spreadsheet import. The demo stores its data in the visitor's browser and has no server.</p>
+                            <ul class="chips"><li>JavaScript</li><li>HTML/CSS</li><li>C# (v1)</li><li>Input validation</li></ul>
                             <div class="project-links">
                                 <a class="link" href="crm/">Try the live demo →</a>
                                 <a class="link" href="project.html">Read the story →</a>
@@ -310,7 +308,7 @@
                         <img src="images/site-preview.webp" alt="The home page of this website" width="1200" height="675" loading="lazy" decoding="async">
                         <div class="project-body">
                             <h3>This website</h3>
-                            <p>My personal site and CV, built with HTML, CSS and JavaScript. It's responsive, accessible and supports dark mode, and I keep adding to it as I learn.</p>
+                            <p>My CV and study notes, written in plain HTML, CSS and JavaScript and deployed to GitHub Pages with GitHub Actions. It's responsive, accessible and supports dark mode.</p>
                             <ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>GitHub</li></ul>
                             <a class="link" href="https://github.com/sebqw/ITJourney" target="_blank" rel="noopener">View the code on GitHub →</a>
                         </div>
@@ -382,43 +380,6 @@
             </dialog>
         </section>
 
-        <section id="play">
-            <div class="wrap">
-                <div class="section-head">
-                    <p class="eyebrow">Take a break</p>
-                    <h2>Packet Run</h2>
-                    <p>A little game hidden in my CV. You're a data packet loose in the network: collect every bit, dodge the viruses, and grab a firewall to quarantine them for a few seconds.</p>
-                </div>
-
-                <div class="arcade" id="arcade">
-                    <div class="arcade-hud">
-                        <div><span>Score</span><strong id="g-score">0</strong></div>
-                        <div><span>Lives</span><strong id="g-lives">3</strong></div>
-                        <div><span>Level</span><strong id="g-level">1</strong></div>
-                        <div><span>Best</span><strong id="g-best">0</strong></div>
-                    </div>
-
-                    <div class="arcade-screen">
-                        <canvas id="game" tabindex="0" role="img" aria-label="Packet Run game: a data packet collecting bits in a maze while avoiding viruses"></canvas>
-                        <div class="arcade-overlay" id="g-overlay">
-                            <p class="arcade-title" id="g-title">Ready?</p>
-                            <p id="g-msg">Collect every data bit and dodge the viruses. Grab a firewall shield to quarantine them, then catch them for bonus points.</p>
-                            <button class="btn" type="button" id="g-start">Start game</button>
-                        </div>
-                    </div>
-
-                    <div class="dpad" aria-label="Direction controls">
-                        <button type="button" class="dpad-up" data-steer="up" aria-label="Up">▲</button>
-                        <button type="button" class="dpad-left" data-steer="left" aria-label="Left">◀</button>
-                        <button type="button" class="dpad-right" data-steer="right" aria-label="Right">▶</button>
-                        <button type="button" class="dpad-down" data-steer="down" aria-label="Down">▼</button>
-                    </div>
-
-                    <p class="arcade-help"><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> to move · <kbd>P</kbd> to pause</p>
-                </div>
-            </div>
-        </section>
-
         <section id="contact" class="contact">
             <div class="wrap">
                 <p class="eyebrow">Contact</p>
@@ -446,11 +407,8 @@
     </footer>
 
     <script src="js/site.js"></script>
-    <script src="js/terminal.js"></script>
-    <script src="js/highlights.js"></script>
     <script src="js/gallery.js"></script>
     <script src="js/contact.js"></script>
-    <script src="js/packet-run.js"></script>
 </body>
 
 </html>
